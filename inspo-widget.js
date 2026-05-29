@@ -13,10 +13,16 @@
   /* ── Styles ───────────────────────────────────────────────── */
   var style = document.createElement('style');
   style.textContent = '\
+    #inspo-band {\
+      width: 100%;\
+      background: #f5f5f5;\
+      margin-top: 60px;\
+      padding: 30px 0 40px 0;\
+    }\
     #inspo-section {\
       width: 92%;\
       max-width: 1200px;\
-      margin: 0 auto 60px auto;\
+      margin: 0 auto;\
       font-family: Helvetica, Arial, sans-serif;\
     }\
     #inspo-label {\
@@ -36,15 +42,15 @@
     }\
     #inspo-scroll::-webkit-scrollbar { display: none; }\
     .inspo-item {\
-      flex: 0 0 260px;\
+      flex: 0 0 220px;\
       display: flex;\
       flex-direction: column;\
     }\
     .inspo-media {\
-      width: 260px;\
-      height: 180px;\
+      width: 220px;\
+      height: 130px;\
       overflow: hidden;\
-      background: #f2f2f2;\
+      background: #e8e8e8;\
       position: relative;\
     }\
     .inspo-media img {\
@@ -86,26 +92,30 @@
     }\
     @media screen and (max-width: 768px) {\
       #inspo-section { width: 90%; }\
-      .inspo-item  { flex: 0 0 200px; }\
-      .inspo-media { width: 200px; height: 138px; }\
+      .inspo-item  { flex: 0 0 180px; }\
+      .inspo-media { width: 180px; height: 105px; }\
     }\
   ';
   document.head.appendChild(style);
 
   /* ── DOM shell ────────────────────────────────────────────── */
-  var section       = document.createElement('div');
-  section.id        = 'inspo-section';
+  var band        = document.createElement('div');
+  band.id         = 'inspo-band';
 
-  var label         = document.createElement('div');
-  label.id          = 'inspo-label';
-  label.textContent = 'Basement of the Brain';
+  var section     = document.createElement('div');
+  section.id      = 'inspo-section';
 
-  var strip         = document.createElement('div');
-  strip.id          = 'inspo-scroll';
+  var label       = document.createElement('div');
+  label.id        = 'inspo-label';
+  label.textContent = 'INSPIRATION [THIS IS THE BASEMENT OF MY BRAIN]';
+
+  var strip       = document.createElement('div');
+  strip.id        = 'inspo-scroll';
 
   section.appendChild(label);
   section.appendChild(strip);
-  document.body.appendChild(section);
+  band.appendChild(section);
+  document.body.appendChild(band);
 
   /* ── Parse post: extract from body HTML ───────────────────── */
   function parsePost(post) {
@@ -113,7 +123,6 @@
     var link    = post.post_url || '#';
     var body    = post.body || '';
 
-    /* Parse body as HTML fragment */
     var frag    = document.createElement('div');
     frag.innerHTML = body;
 
@@ -125,7 +134,7 @@
       if (m) return { title: title, link: link, type: 'video', content: m[1] };
     }
 
-    /* Image in body — pick best srcset size */
+    /* Image in body */
     var img = frag.querySelector('img');
     if (img) {
       var best   = img.getAttribute('src') || '';
@@ -137,12 +146,10 @@
         var top = parts.reduce(function(a, b) {
           return (parseInt(b[1]) || 0) > (parseInt(a[1]) || 0) ? b : a;
         }, parts[0]);
-        if (top && top[0] &&
-            top[0].indexOf('inline_placeholder') === -1) {
+        if (top && top[0] && top[0].indexOf('inline_placeholder') === -1) {
           best = top[0];
         }
       }
-      /* Skip Tumblr's inline placeholder image */
       if (best && best.indexOf('inline_placeholder') === -1) {
         return { title: title, link: link, type: 'image', content: best };
       }
@@ -215,9 +222,8 @@
         strip.innerHTML = '<div id="inspo-error">No posts found.</div>';
       }
 
-      /* Prevent lightbox firing on inspo images */
       document.addEventListener('click', function(e) {
-        if (e.target.closest('#inspo-section')) e.stopPropagation();
+        if (e.target.closest('#inspo-band')) e.stopPropagation();
       }, true);
     })
     .catch(function(err) {
