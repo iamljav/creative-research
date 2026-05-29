@@ -1,14 +1,14 @@
 /**
  * inspo-widget.js
  * Fetches posts from creativeresearchinspo.tumblr.com
- * using the Tumblr v2 API (no proxy needed).
+ * using the Tumblr v2 API, parsing the body HTML directly.
  */
 
 (function () {
   var BLOG_NAME = 'creativeresearchinspo';
   var API_KEY   = 'd8YXk2ySage2LJ6FZuepTi8DSKa5MHw3IUgK9aSPEaAMfP3Hh2';
-  var API_URL   = 'https://api.tumblr.com/v2/blog/' + BLOG_NAME + '.tumblr.com/posts' +
-                  '?api_key=' + API_KEY + '&limit=20&npf=false';
+  var API_URL   = 'https://api.tumblr.com/v2/blog/' + BLOG_NAME +
+                  '.tumblr.com/posts?api_key=' + API_KEY + '&limit=20';
 
   /* ── Styles ───────────────────────────────────────────────── */
   var style = document.createElement('style');
@@ -107,38 +107,45 @@
   section.appendChild(strip);
   document.body.appendChild(section);
 
-  /* ── Parse a post from Tumblr v2 API ─────────────────────── */
+  /* ── Parse post: extract from body HTML ───────────────────── */
   function parsePost(post) {
-    var title = post.summary || post.slug || '';
-    var link  = post.post_url || '#';
+    var title   = post.summary || '';
+    var link    = post.post_url || '#';
+    var body    = post.body || '';
 
-    /* Video post — look for YouTube embed */
-    if (post.type === 'video') {
-      var embed = post.player ? post.player[post.player.length - 1] : null;
-      var embedCode = embed ? (embed.embed_code || '') : '';
-      var m = embedCode.match(/youtube\.com\/embed\/([^?&"]+)/);
-      if (m) {
-        return { title: title, link: link, type: 'video', content: m[1] };
-      }
-      /* Fallback: use video thumbnail if available */
-      if (post.thumbnail_url) {
-        return { title: title, link: link, type: 'image', content: post.thumbnail_url };
-      }
+    /* Parse body as HTML fragment */
+    var frag    = document.createElement('div');
+    frag.innerHTML = body;
+
+    /* YouTube iframe in body */
+    var iframe  = frag.querySelector('iframe[src*="youtube.com/embed"]');
+    if (iframe) {
+      var src = iframe.getAttribute('src') || '';
+      var m   = src.match(/youtube\.com\/embed\/([^?&"]+)/);
+      if (m) return { title: title, link: link, type: 'video', content: m[1] };
     }
 
-    /* Photo post */
-    if (post.type === 'photo' && post.photos && post.photos.length > 0) {
-      var photo = post.photos[0];
-      /* Pick largest alt size under 1280px */
-      var src = photo.original_size ? photo.original_size.url : '';
-      if (photo.alt_sizes && photo.alt_sizes.length > 0) {
-        var alts = photo.alt_sizes.slice().sort(function(a, b) {
-          return b.width - a.width;
+    /* Image in body — pick best srcset size */
+    var img = frag.querySelector('img');
+    if (img) {
+      var best   = img.getAttribute('src') || '';
+      var srcset = img.getAttribute('srcset') || '';
+      if (srcset) {
+        var parts = srcset.split(',').map(function(s) {
+          return s.trim().split(/\s+/);
         });
-        var best = alts.find(function(s) { return s.width <= 1280; });
-        if (best) src = best.url;
+        var top = parts.reduce(function(a, b) {
+          return (parseInt(b[1]) || 0) > (parseInt(a[1]) || 0) ? b : a;
+        }, parts[0]);
+        if (top && top[0] &&
+            top[0].indexOf('inline_placeholder') === -1) {
+          best = top[0];
+        }
       }
-      return { title: title, link: link, type: 'image', content: src };
+      /* Skip Tumblr's inline placeholder image */
+      if (best && best.indexOf('inline_placeholder') === -1) {
+        return { title: title, link: link, type: 'image', content: best };
+      }
     }
 
     return null;
@@ -192,7 +199,8 @@
   fetch(API_URL)
     .then(function(r) { return r.json(); })
     .then(function(data) {
-      var posts = (data.response && data.response.posts) ? data.response.posts : [];
+      var posts = (data.response && data.response.posts)
+                  ? data.response.posts : [];
       strip.textContent = '';
 
       var rendered = 0;
@@ -214,7 +222,8 @@
     })
     .catch(function(err) {
       console.warn('inspo-widget:', err);
-      strip.innerHTML = '<div id="inspo-error">Could not load inspiration feed.</div>';
+      strip.innerHTML =
+        '<div id="inspo-error">Could not load inspiration feed.</div>';
     });
 
 })();
