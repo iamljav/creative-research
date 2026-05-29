@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Luca Vergano</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Creative research not work-related by Luca Vergano" />
+    <link rel="me" href="https://lucavergano.com" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "@id": "https://lucavergano.com/#luca-vergano",
+      "name": "Luca Vergano",
+      "alternateName": "LJAV",
+      "url": "https://lucavergano.com",
+      "sameAs": [
+        "https://lucavergano.com",
+        "https://iamljav.xyz",
+        "https://www.linkedin.com/in/lucavergano",
+        "https://www.instagram.com/iamljav/"
+      ]
+    }
+    </script>
+
+    <style>
+        /* ── RESET ───────────────────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; }
+
+        /* ── CORE LAYOUT ─────────────────────────────────────── */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        #container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 50px auto 0 auto;
+            display: flex;
+            gap: 40px;
+            justify-content: flex-start;
+        }
+
+        /* ── SIDEBAR ─────────────────────────────────────────── */
+        #sidebar {
+            width: 190px;
+            min-width: 190px;
+            text-align: center;
+            position: sticky;
+            top: 50px;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .avatar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .avatar-img {
+            width: 64px;
+            height: 64px;
+            display: block;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .avatar-name {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #000000;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .sidebar-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 25px;
+            gap: 8px;
+        }
+
+        .sidebar-links a {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 8px;
+            text-decoration: none;
+            text-transform: uppercase;
+            color: #000000;
+            text-align: center;
+        }
+
+        .sidebar-links a:hover { text-decoration: underline; }
+
+        /* ── POSTS ───────────────────────────────────────────── */
+        #posts {
+            flex: 1;
+            min-width: 0;
+        }
+
+        article {
+            margin-bottom: 80px;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        article a {
+            color: #B81900;
+            text-decoration: underline;
+        }
+
+        /* ── VIDEO EMBED — responsive 16:9 ──────────────────── */
+        .video-wrap {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin: 0 0 6px 0;
+            overflow: hidden;
+        }
+
+        .video-wrap iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ── POST CAPTION ────────────────────────────────────── */
+        .post-caption {
+            font-size: 10px;
+            font-family: Helvetica, Arial, sans-serif;
+            color: #000;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        .post-caption em {
+            font-style: italic;
+        }
+
+        /* ── CAROUSEL ────────────────────────────────────────── */
+        .carousel-wrap {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.4s ease;
+            will-change: transform;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+            cursor: zoom-in;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 10;
+            opacity: 0.25;
+            transition: opacity 0.2s ease;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            color: #000;
+            line-height: 1;
+        }
+
+        .carousel-btn:hover { opacity: 0.6; }
+        .carousel-btn.prev  { left: 4px; }
+        .carousel-btn.next  { right: 4px; }
+
+        .carousel-counter {
+            text-align: right;
+            font-size: 8px;
+            font-family: Helvetica, Arial, sans-serif;
+            color: #999;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* ── LIGHTBOX ────────────────────────────────────────── */
+        .lightbox-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            z-index: 9999;
+            cursor: zoom-out;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-overlay.active { display: flex; }
+
+        .lightbox-overlay img {
+            max-width: 92vw;
+            max-height: 92vh;
+            object-fit: contain;
+            display: block;
+        }
+
+        #posts article img { cursor: zoom-in; }
+
+        /* ── MOBILE ──────────────────────────────────────────── */
+        @media screen and (max-width: 768px) {
+            #container {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+                margin: 20px auto 0 auto;
+                width: 90%;
+            }
+
+            #sidebar {
+                width: 100%;
+                min-width: unset;
+                position: static;
+            }
+
+            .sidebar-links a,
+            .avatar-name { font-size: 10px; }
+
+            #posts {
+                width: 100%;
+                flex: unset;
+                min-width: unset;
+            }
+
+            article { font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="container">
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar">
+        <div class="avatar-container">
+            <a href="/" style="text-decoration:none;">
+                <img src="assets/img/avatar.jpg" class="avatar-img" alt="Luca Vergano">
+            </a>
+            <p class="avatar-name">Luca Vergano</p>
+        </div>
+
+        <nav class="sidebar-links">
+            <a href="https://www.instagram.com/iamljav/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
+            <a href="https://foundation.app/@LJAV" target="_blank" rel="noopener noreferrer">FOUNDATION</a>
+            <a href="https://www.metalabel.com/ljav" target="_blank" rel="noopener noreferrer">METALABEL</a>
+        </nav>
+    </aside>
+
+    <!-- POSTS -->
+    <main id="posts">
+
+        <!-- POST: untitled | DNA generated video, 2024 -->
+        <article id="post-dna-2024">
+            <div class="video-wrap">
+                <iframe
+                    src="https://player.vimeo.com/video/1177684047?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                    title="selfie (orange version) | dna electrophoresis, generative audio VST, digital manipulation">
+                </iframe>
+            </div>
+            <p class="post-caption"><strong>untitled</strong> | <em>DNA generated video</em>, 2024</p>
+        </article>
+
+        <!-- ADD NEW POSTS ABOVE THIS LINE -->
+
+    </main>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox">
+    <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+    // ── LIGHTBOX ──────────────────────────────────────────────
+    var overlay = document.getElementById('lightbox');
+    var lbImg   = document.getElementById('lightbox-img');
+
+    document.addEventListener('click', function(e) {
+        var img = e.target.closest('#posts img');
+        if (img && !e.target.closest('.carousel-btn') && !img.dataset.noLightbox) {
+            lbImg.src = img.src;
+            lbImg.alt = img.alt || '';
+            overlay.classList.add('active');
+        }
+    });
+
+    overlay.addEventListener('click', function() {
+        overlay.classList.remove('active');
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') overlay.classList.remove('active');
+    });
+
+    // ── OPEN POST LINKS IN NEW TAB ────────────────────────────
+    document.querySelectorAll('#posts article a').forEach(function(a) {
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener noreferrer');
+    });
+
+    // ── CAROUSEL ──────────────────────────────────────────────
+    // (ready for multi-image posts — attach to any article
+    //  that contains a .carousel-wrap you add manually)
+    document.querySelectorAll('.carousel-wrap').forEach(function(carousel) {
+        var track  = carousel.querySelector('.carousel-track');
+        var slides = carousel.querySelectorAll('.carousel-slide');
+        var total  = slides.length;
+        if (total <= 1) return;
+
+        var current = 0;
+
+        var prevBtn = document.createElement('button');
+        prevBtn.className   = 'carousel-btn prev';
+        prevBtn.textContent = '<';
+        prevBtn.setAttribute('aria-label', 'Previous');
+
+        var nextBtn = document.createElement('button');
+        nextBtn.className   = 'carousel-btn next';
+        nextBtn.textContent = '>';
+        nextBtn.setAttribute('aria-label', 'Next');
+
+        carousel.appendChild(prevBtn);
+        carousel.appendChild(nextBtn);
+
+        var counter = document.createElement('div');
+        counter.className   = 'carousel-counter';
+        counter.textContent = '1 / ' + total;
+        carousel.parentNode.insertBefore(counter, carousel.nextSibling);
+
+        function goTo(index) {
+            current = (index + total) % total;
+            track.style.transform = 'translateX(-' + (current * 100) + '%)';
+            counter.textContent   = (current + 1) + ' / ' + total;
+        }
+
+        prevBtn.addEventListener('click', function() { goTo(current - 1); });
+        nextBtn.addEventListener('click', function() { goTo(current + 1); });
+    });
+</script>
+
+<!-- INSPIRATION WIDGET -->
+<script src="inspo-widget.js"></script>
+
+</body>
+</html>
