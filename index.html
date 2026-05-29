@@ -28,7 +28,6 @@
         /* ── RESET ───────────────────────────────────────────── */
         *, *::before, *::after { box-sizing: border-box; }
 
-        /* ── CORE LAYOUT ─────────────────────────────────────── */
         body {
             margin: 0;
             padding: 0;
@@ -37,77 +36,74 @@
             color: #000000;
         }
 
-        #container {
+        /* ── TOP NAV ─────────────────────────────────────────── */
+        #topnav {
             width: 92%;
             max-width: 1200px;
-            margin: 50px auto 0 auto;
+            margin: 40px auto 50px auto;
             display: flex;
-            gap: 40px;
-            justify-content: flex-start;
+            align-items: center;
+            gap: 32px;
         }
 
-        /* ── SIDEBAR ─────────────────────────────────────────── */
-        #sidebar {
-            width: 190px;
-            min-width: 190px;
-            text-align: center;
-            position: sticky;
-            top: 50px;
-            height: fit-content;
+        .nav-avatar-wrap {
             display: flex;
             flex-direction: column;
             align-items: center;
+            text-decoration: none;
+            gap: 6px;
         }
 
-        .avatar-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 10px;
-            width: 100%;
-        }
-
-        .avatar-img {
+        .nav-avatar-wrap img.avatar-img {
             width: 64px;
             height: 64px;
-            display: block;
             border-radius: 50%;
             object-fit: cover;
+            display: block;
         }
 
-        .avatar-name {
+        .nav-avatar-wrap span {
             font-family: Helvetica, Arial, sans-serif;
             font-size: 8px;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            color: #000000;
-            margin-top: 8px;
-            text-align: center;
+            color: #000;
         }
 
-        .sidebar-links {
+        .nav-links {
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+        }
+
+        .nav-link {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 25px;
-            gap: 8px;
+            text-decoration: none;
+            gap: 6px;
         }
 
-        .sidebar-links a {
+        .nav-link img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-link span {
             font-family: Helvetica, Arial, sans-serif;
             font-size: 8px;
-            text-decoration: none;
             text-transform: uppercase;
-            color: #000000;
-            text-align: center;
+            letter-spacing: 0.08em;
+            color: #000;
         }
 
-        .sidebar-links a:hover { text-decoration: underline; }
-
-        /* ── POSTS ───────────────────────────────────────────── */
-        #posts {
-            flex: 1;
-            min-width: 0;
+        /* ── POSTS AREA ──────────────────────────────────────── */
+        #posts-wrap {
+            width: 92%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         article {
@@ -149,9 +145,7 @@
             line-height: 1.5;
         }
 
-        .post-caption em {
-            font-style: italic;
-        }
+        .post-caption em { font-style: italic; }
 
         /* ── CAROUSEL ────────────────────────────────────────── */
         .carousel-wrap {
@@ -233,31 +227,21 @@
             display: block;
         }
 
-        #posts article img { cursor: zoom-in; }
+        #posts-wrap article img { cursor: zoom-in; }
 
         /* ── MOBILE ──────────────────────────────────────────── */
         @media screen and (max-width: 768px) {
-            #container {
-                flex-direction: column;
-                align-items: center;
-                gap: 30px;
-                margin: 20px auto 0 auto;
+            #topnav {
                 width: 90%;
+                margin: 24px auto 36px auto;
+                gap: 20px;
+                flex-wrap: wrap;
             }
 
-            #sidebar {
-                width: 100%;
-                min-width: unset;
-                position: static;
-            }
+            .nav-link img { width: 32px; height: 32px; }
 
-            .sidebar-links a,
-            .avatar-name { font-size: 10px; }
-
-            #posts {
-                width: 100%;
-                flex: unset;
-                min-width: unset;
+            #posts-wrap {
+                width: 90%;
             }
 
             article { font-size: 12px; }
@@ -266,25 +250,31 @@
 </head>
 <body>
 
-<div id="container">
+<!-- TOP NAV -->
+<nav id="topnav">
+    <a href="/" class="nav-avatar-wrap" style="text-decoration:none;">
+        <img src="assets/img/avatar.jpg" class="avatar-img" alt="Luca Vergano">
+        <span>Luca Vergano</span>
+    </a>
 
-    <!-- SIDEBAR -->
-    <aside id="sidebar">
-        <div class="avatar-container">
-            <a href="/" style="text-decoration:none;">
-                <img src="assets/img/avatar.jpg" class="avatar-img" alt="Luca Vergano">
-            </a>
-            <p class="avatar-name">Luca Vergano</p>
-        </div>
+    <div class="nav-links">
+        <a href="https://discord.gg/" target="_blank" rel="noopener noreferrer" class="nav-link">
+            <img src="assets/img/discord.png" alt="Discord">
+            <span>Discord</span>
+        </a>
+        <a href="https://www.metalabel.com/ljav" target="_blank" rel="noopener noreferrer" class="nav-link">
+            <img src="assets/img/metalabel.png" alt="Metalabel">
+            <span>Metalabel</span>
+        </a>
+        <a href="https://www.instagram.com/iamljav/" target="_blank" rel="noopener noreferrer" class="nav-link">
+            <img src="assets/img/instagram.png" alt="Instagram">
+            <span>Instagram</span>
+        </a>
+    </div>
+</nav>
 
-        <nav class="sidebar-links">
-            <a href="https://www.instagram.com/iamljav/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
-            <a href="https://foundation.app/@LJAV" target="_blank" rel="noopener noreferrer">FOUNDATION</a>
-            <a href="https://www.metalabel.com/ljav" target="_blank" rel="noopener noreferrer">METALABEL</a>
-        </nav>
-    </aside>
-
-    <!-- POSTS -->
+<!-- POSTS -->
+<div id="posts-wrap">
     <main id="posts">
 
         <!-- POST: untitled | oblique alphabet mobile platform, 2026 -->
@@ -354,8 +344,6 @@
     });
 
     // ── CAROUSEL ──────────────────────────────────────────────
-    // (ready for multi-image posts — attach to any article
-    //  that contains a .carousel-wrap you add manually)
     document.querySelectorAll('.carousel-wrap').forEach(function(carousel) {
         var track  = carousel.querySelector('.carousel-track');
         var slides = carousel.querySelectorAll('.carousel-slide');
