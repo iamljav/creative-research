@@ -81,8 +81,8 @@
       color: #000;\
     }\
     .inspo-title a {\
-      color: #B81900 !important;\
-      text-decoration: underline !important;\
+      color: #000000 !important;\
+      text-decoration: none !important;\
     }\
     #inspo-error {\
       font-size: 8px;\
