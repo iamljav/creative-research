@@ -107,7 +107,8 @@
 
   var label       = document.createElement('div');
   label.id        = 'inspo-label';
-  label.textContent = 'INSPIRATION [THIS IS THE BASEMENT OF MY BRAIN]';
+  label.textContent = 'INSPIRATION: THIS IS THE BASEMENT OF MY BRAIN';
+  label.style.fontWeight = 'bold';
 
   var strip       = document.createElement('div');
   strip.id        = 'inspo-scroll';
