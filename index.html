@@ -147,6 +147,73 @@
 
         .post-caption em { font-style: italic; }
 
+        /* ── TITLE TRIGGER ───────────────────────────────────── */
+        .post-title-trigger {
+            cursor: pointer;
+            text-decoration: none;
+            border-bottom: 1px solid #000;
+        }
+
+        .post-title-trigger:hover {
+            opacity: 0.5;
+        }
+
+        /* ── INFO MODAL ──────────────────────────────────────── */
+        .info-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 9998;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .info-overlay.active { display: flex; }
+
+        .info-box {
+            background: #fff;
+            color: #000;
+            max-width: 480px;
+            width: 100%;
+            padding: 28px 32px;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 11px;
+            line-height: 1.7;
+            position: relative;
+        }
+
+        .info-box-title {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin: 0 0 14px 0;
+        }
+
+        .info-box-body {
+            margin: 0;
+        }
+
+        .info-box-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            cursor: pointer;
+            color: #000;
+            line-height: 1;
+            opacity: 0.4;
+            padding: 4px;
+        }
+
+        .info-box-close:hover { opacity: 1; }
+
         /* ── CAROUSEL ────────────────────────────────────────── */
         .carousel-wrap {
             position: relative;
@@ -245,6 +312,10 @@
             }
 
             article { font-size: 12px; }
+
+            .info-box {
+                padding: 20px 20px;
+            }
         }
     </style>
 </head>
@@ -290,7 +361,13 @@
             <div class="video-wrap" style="padding-bottom: 0; height: auto;">
                 <img src="assets/img/handofgod.jpg" alt="hand of god" style="width:100%; display:block;">
             </div>
-            <p class="post-caption"><strong>estamos ganando</strong></a> | <em>video stills, digital design</em></p>
+            <p class="post-caption">
+                <strong
+                    class="post-title-trigger"
+                    data-title="estamos ganando"
+                    data-description="Your description for this work goes here. Replace this text with whatever you want to say about the piece."
+                >estamos ganando</strong> | <em>video stills, digital design</em>
+            </p>
         </article>
 
         <!-- POST: oblique alphabet | anti-algorithm digital tool, 2026 -->
@@ -304,7 +381,15 @@
                     title="oblique alphabet intro high res">
                 </iframe>
             </div>
-            <p class="post-caption"><a href="https://obliquealphabet.ai"><strong>obliquealphabet.ai</strong></a> | <em>anti-algorithm digital tool</em></p>
+            <p class="post-caption">
+                <a href="https://obliquealphabet.ai">
+                    <strong
+                        class="post-title-trigger"
+                        data-title="obliquealphabet.ai"
+                        data-description="Your description for this work goes here. Replace this text with whatever you want to say about the piece."
+                    >obliquealphabet.ai</strong>
+                </a> | <em>anti-algorithm digital tool</em>
+            </p>
         </article>
 
         <!-- POST: selfie | DNA generated video, 2024 -->
@@ -318,12 +403,27 @@
                     title="selfie | mitochondrial dna electrophoresis, generative audio VST, digital manipulation">
                 </iframe>
             </div>
-            <p class="post-caption"><strong>selfie</strong> | <em>mitochondrial dna electrophoresis, generative audio VST, digital manipulation</em></p>
+            <p class="post-caption">
+                <strong
+                    class="post-title-trigger"
+                    data-title="selfie"
+                    data-description="Your description for this work goes here. Replace this text with whatever you want to say about the piece."
+                >selfie</strong> | <em>mitochondrial dna electrophoresis, generative audio VST, digital manipulation</em>
+            </p>
         </article>
 
         <!-- ADD NEW POSTS ABOVE THIS LINE -->
 
     </main>
+</div>
+
+<!-- INFO MODAL -->
+<div class="info-overlay" id="info-overlay">
+    <div class="info-box" id="info-box">
+        <button class="info-box-close" id="info-box-close" aria-label="Close">&#x2715;</button>
+        <p class="info-box-title" id="info-box-title"></p>
+        <p class="info-box-body" id="info-box-body"></p>
+    </div>
 </div>
 
 <!-- LIGHTBOX -->
@@ -332,6 +432,33 @@
 </div>
 
 <script>
+    // ── INFO MODAL ────────────────────────────────────────────
+    var infoOverlay = document.getElementById('info-overlay');
+    var infoBox     = document.getElementById('info-box');
+    var infoTitle   = document.getElementById('info-box-title');
+    var infoBody    = document.getElementById('info-box-body');
+    var infoClose   = document.getElementById('info-box-close');
+
+    document.addEventListener('click', function(e) {
+        var trigger = e.target.closest('.post-title-trigger');
+        if (trigger) {
+            e.preventDefault();
+            infoTitle.textContent = trigger.dataset.title || '';
+            infoBody.textContent  = trigger.dataset.description || '';
+            infoOverlay.classList.add('active');
+        }
+    });
+
+    infoOverlay.addEventListener('click', function(e) {
+        if (!infoBox.contains(e.target)) {
+            infoOverlay.classList.remove('active');
+        }
+    });
+
+    infoClose.addEventListener('click', function() {
+        infoOverlay.classList.remove('active');
+    });
+
     // ── LIGHTBOX ──────────────────────────────────────────────
     var overlay = document.getElementById('lightbox');
     var lbImg   = document.getElementById('lightbox-img');
@@ -350,7 +477,10 @@
     });
 
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') overlay.classList.remove('active');
+        if (e.key === 'Escape') {
+            overlay.classList.remove('active');
+            infoOverlay.classList.remove('active');
+        }
     });
 
     // ── OPEN POST LINKS IN NEW TAB ────────────────────────────
