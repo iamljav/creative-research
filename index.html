@@ -214,6 +214,18 @@
 
         .info-box-close:hover { opacity: 1; }
 
+        .info-box-link {
+            display: none;
+            margin-top: 14px;
+            font-size: 10px;
+            font-family: Helvetica, Arial, sans-serif;
+            color: #000;
+            text-decoration: underline;
+            word-break: break-all;
+        }
+
+        .info-box-link.visible { display: block; }
+
         /* ── CAROUSEL ────────────────────────────────────────── */
         .carousel-wrap {
             position: relative;
@@ -382,13 +394,12 @@
                 </iframe>
             </div>
             <p class="post-caption">
-                <a href="https://obliquealphabet.ai">
-                    <strong
-                        class="post-title-trigger"
-                        data-title="obliquealphabet.ai"
-                        data-description="Your description for this work goes here. Replace this text with whatever you want to say about the piece."
-                    >obliquealphabet.ai</strong>
-                </a> | <em>anti-algorithm digital tool</em>
+                <strong
+                    class="post-title-trigger"
+                    data-title="obliquealphabet.ai"
+                    data-description="Your description for this work goes here. Replace this text with whatever you want to say about the piece."
+                    data-link="https://obliquealphabet.ai"
+                >obliquealphabet.ai</strong> | <em>anti-algorithm digital tool</em>
             </p>
         </article>
 
@@ -423,6 +434,7 @@
         <button class="info-box-close" id="info-box-close" aria-label="Close">&#x2715;</button>
         <p class="info-box-title" id="info-box-title"></p>
         <p class="info-box-body" id="info-box-body"></p>
+        <a class="info-box-link" id="info-box-link" href="#" target="_blank" rel="noopener noreferrer"></a>
     </div>
 </div>
 
@@ -438,6 +450,7 @@
     var infoTitle   = document.getElementById('info-box-title');
     var infoBody    = document.getElementById('info-box-body');
     var infoClose   = document.getElementById('info-box-close');
+    var infoLink    = document.getElementById('info-box-link');
 
     document.addEventListener('click', function(e) {
         var trigger = e.target.closest('.post-title-trigger');
@@ -445,6 +458,14 @@
             e.preventDefault();
             infoTitle.textContent = trigger.dataset.title || '';
             infoBody.textContent  = trigger.dataset.description || '';
+            var link = trigger.dataset.link || '';
+            if (link) {
+                infoLink.href        = link;
+                infoLink.textContent = link;
+                infoLink.classList.add('visible');
+            } else {
+                infoLink.classList.remove('visible');
+            }
             infoOverlay.classList.add('active');
         }
     });
