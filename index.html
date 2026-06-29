@@ -377,16 +377,7 @@
                 <strong
                     class="post-title-trigger"
                     data-title="estamos ganando"
-                    data-description="Estamos Ganando (“We Are Winning”) is a notorious headline from Argentinian magazine Gente, published during the 1982 Falklands War. 
-                    
-                    It portrayed a failing military campaign as a triumph, becoming a lasting symbol of state propaganda.
-                    
-                    Four years after the war, Diego Maradona scored his infamous “Hand of God” goal against England at the 1986 World Cup, on June 22.
-                    
-                    Maradona later acknowledged the goal was deliberate handball, but described it as symbolic revenge for the Falklands War.
-                    
-                    Jorge Luis Borges, perhaps Argentina’s most celebrated writer, described the conflict as “a fight between two bald men over a comb.”"
-                
+                    data-description="Estamos Ganando (&quot;We Are Winning&quot;) is a notorious headline from Argentinian magazine Gente, published during the 1982 Falklands War.||It portrayed a failing military campaign as a triumph, becoming a lasting symbol of state propaganda.||Four years after the war, Diego Maradona scored his infamous &quot;Hand of God&quot; goal against England at the 1986 World Cup, on June 22.||Maradona later acknowledged the goal was deliberate handball, but described it as symbolic revenge for the Falklands War.||Jorge Luis Borges, perhaps Argentina's most celebrated writer, described the conflict as &quot;a fight between two bald men over a comb.&quot;"
                 >estamos ganando</strong> | <em>video stills, digital design</em>
             </p>
         </article>
@@ -466,7 +457,13 @@
         if (trigger) {
             e.preventDefault();
             infoTitle.textContent = trigger.dataset.title || '';
-            infoBody.textContent  = trigger.dataset.description || '';
+            infoBody.innerHTML = '';
+            (trigger.dataset.description || '').split('||').forEach(function(para) {
+                var p = document.createElement('p');
+                p.style.margin = '0 0 10px 0';
+                p.textContent = para.trim();
+                infoBody.appendChild(p);
+            });
             var link = trigger.dataset.link || '';
             if (link) {
                 infoLink.href        = link;
