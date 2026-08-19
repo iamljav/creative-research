@@ -36,74 +36,11 @@
             color: #000000;
         }
 
-        /* ── TOP NAV ─────────────────────────────────────────── */
-        #topnav {
-            width: 92%;
-            max-width: 1200px;
-            margin: 40px auto 50px auto;
-            display: flex;
-            align-items: center;
-            gap: 32px;
-        }
-
-        .nav-avatar-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            gap: 6px;
-        }
-
-        .nav-avatar-wrap img.avatar-img {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .nav-avatar-wrap span {
-            font-family: Helvetica, Arial, sans-serif;
-            font-size: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #000;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: flex-start;
-            gap: 24px;
-        }
-
-        .nav-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            gap: 6px;
-        }
-
-        .nav-link img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            display: block;
-        }
-
-        .nav-link span {
-            font-family: Helvetica, Arial, sans-serif;
-            font-size: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #000;
-        }
-
         /* ── POSTS AREA ──────────────────────────────────────── */
         #posts-wrap {
             width: 92%;
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 40px auto 0 auto;
             font-family: Helvetica, Arial, sans-serif;
             font-size: 10px;
             line-height: 1.6;
@@ -316,13 +253,6 @@
             border-width: 2px;
         }
 
-        .tile-index {
-            font-size: 9px;
-            color: #999;
-            letter-spacing: 0.05em;
-            margin-bottom: 6px;
-        }
-
         .tile-label {
             font-size: 11px;
             text-transform: uppercase;
@@ -417,17 +347,9 @@
 
         /* ── MOBILE ──────────────────────────────────────────── */
         @media screen and (max-width: 768px) {
-            #topnav {
-                width: 90%;
-                margin: 24px auto 36px auto;
-                gap: 20px;
-                flex-wrap: wrap;
-            }
-
-            .nav-link img { width: 32px; height: 32px; }
-
             #posts-wrap {
                 width: 90%;
+                margin-top: 24px;
             }
 
             #posts-wrap { font-size: 12px; }
@@ -449,24 +371,6 @@
     </style>
 </head>
 <body>
-
-<!-- TOP NAV -->
-<nav id="topnav">
-    <a href="https://lucavergano.com" class="nav-avatar-wrap">
-        <img src="assets/img/avatar.png" alt="Luca Vergano" class="avatar-img">
-        <span>LJAV</span>
-    </a>
-    <div class="nav-links">
-        <a href="https://www.instagram.com/iamljav/" target="_blank" rel="noopener noreferrer" class="nav-link">
-            <img src="assets/img/instagram.png" alt="Instagram">
-            <span>IG</span>
-        </a>
-        <a href="https://www.metalabel.com/ljav" target="_blank" rel="noopener noreferrer" class="nav-link">
-            <img src="assets/img/metalabel.png" alt="Metalabel">
-            <span>ZINES</span>
-        </a>
-    </div>
-</nav>
 
 <!-- POSTS -->
 <div id="posts-wrap">
@@ -503,17 +407,17 @@
                 </template>
             </div>
 
-            <!-- SLIDE: selfie | DNA generated video, 2024 -->
-            <div class="stage-slide" data-label="untitled [selfie]">
+            <!-- SLIDE: self portrait | DNA generated video, 2024 -->
+            <div class="stage-slide" data-label="untitled [self portrait]">
                 <iframe
                     src="https://player.vimeo.com/video/1197362495?h=d30c981759&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
                     allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
                     referrerpolicy="strict-origin-when-cross-origin"
                     allowfullscreen
-                    title="selfie | mitochondrial dna electrophoresis, generative audio VST, digital manipulation">
+                    title="self portrait | mitochondrial dna electrophoresis, generative audio VST, digital manipulation">
                 </iframe>
                 <template class="stage-caption-src">
-                    <strong>untitled [selfie]</strong> | <em>mitochondrial dna, dna electrophoresis, generative audio VST, digital manipulation</em>
+                    <strong>untitled [self portrait]</strong> | <em>mitochondrial dna, dna electrophoresis, generative audio VST, digital manipulation</em>
                 </template>
             </div>
 
@@ -632,15 +536,10 @@
             tile.type = 'button';
             tile.setAttribute('aria-label', 'Show project: ' + (slide.dataset.label || (i + 1)));
 
-            var index = document.createElement('span');
-            index.className = 'tile-index';
-            index.textContent = (i + 1 < 10 ? '0' : '') + (i + 1);
-
             var label = document.createElement('span');
             label.className = 'tile-label';
             label.textContent = slide.dataset.label || ('project ' + (i + 1));
 
-            tile.appendChild(index);
             tile.appendChild(label);
             tile.addEventListener('click', function() { goTo(i); });
             tilesEl.appendChild(tile);
