@@ -27,6 +27,21 @@
     </script>
 
     <style>
+        /* ── FONTS ───────────────────────────────────────────── */
+        @font-face {
+            font-family: 'IBM Plex Mono';
+            src: url('assets/img/IBMPlexMono-Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'IBM Plex Mono Light';
+            src: url('assets/img/IBMPlexMono-Light.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         /* ── RESET ───────────────────────────────────────────── */
         *, *::before, *::after { box-sizing: border-box; }
 
@@ -67,7 +82,17 @@
             line-height: 1.5;
         }
 
-        .post-caption em { font-style: italic; }
+        .post-caption em {
+            font-style: normal;
+            font-family: 'IBM Plex Mono Light', monospace;
+            text-transform: lowercase;
+            font-size: 8px;
+            color: #666666;
+        }
+
+        .post-caption em a {
+            color: inherit;
+        }
 
         /* ── TITLE TRIGGER ───────────────────────────────────── */
         .post-title-trigger {
@@ -221,6 +246,13 @@
             margin-top: 6px;
         }
 
+        #stage-caption strong {
+            text-transform: uppercase;
+            font-weight: normal;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9px;
+        }
+
         /* ── TILES ROW ───────────────────────────────────────── */
         .tiles-row {
             display: flex;
@@ -234,7 +266,7 @@
         .tile {
             flex: 1 1 0;
             min-width: 120px;
-            height: 90px;
+            height: 63px;
             background: #fff;
             border: 1px solid #000;
             opacity: 0.4;
@@ -256,10 +288,11 @@
         }
 
         .tile-label {
-            font-size: 11px;
+            font-size: 9px;
             text-transform: uppercase;
             letter-spacing: 0.04em;
             color: #000;
+            font-family: 'IBM Plex Mono', monospace;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -362,7 +395,7 @@
 
             .tile {
                 min-width: 90px;
-                height: 70px;
+                height: 49px;
             }
 
             .stage-btn {
@@ -391,7 +424,7 @@
                     title="a conspiracy theory of everything">
                 </iframe>
                 <template class="stage-caption-src">
-                    <strong><a href="https://conspiracytraces.org" target="_blank" rel="noopener">a conspiracy theory of everything</a></strong> | <em>coding, data visualization</em>
+                    <strong><a href="https://conspiracytraces.org" target="_blank" rel="noopener">a conspiracy theory of everything</a></strong> <em>coding, data visualization</em>
                 </template>
             </div>
 
@@ -405,7 +438,7 @@
                     title="oblique alphabet | generative AI">
                 </iframe>
                 <template class="stage-caption-src">
-                    <strong><a href="https://obliquealphabet.ai/" target="_blank" rel="noopener">oblique alphabet</a> [anti-algorithm digital card deck] </strong> | <em>generative AI</em>
+                    <strong><a href="https://obliquealphabet.ai/" target="_blank" rel="noopener">oblique alphabet</a> [anti-algorithm digital card deck]</strong> <em>generative AI</em>
                 </template>
             </div>
 
@@ -419,7 +452,7 @@
                     title="self portrait | mitochondrial dna electrophoresis, generative audio VST, digital manipulation">
                 </iframe>
                 <template class="stage-caption-src">
-                    <strong>self portrait</strong> | <em>mitochondrial dna, dna electrophoresis, generative audio VST, digital manipulation</em>
+                    <strong>self portrait</strong> <em>mitochondrial dna, dna electrophoresis, generative audio VST, digital manipulation</em>
                 </template>
             </div>
 
